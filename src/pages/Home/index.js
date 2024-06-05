@@ -15,7 +15,9 @@ import Modal from "../../containers/Modal";
 import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
-  const {last} = useData()
+  const { last } = useData()
+
+  
   return <>
     <header>
       <Menu />
@@ -115,17 +117,26 @@ const Page = () => {
         </Modal>
       </div>
     </main>
+
     <footer className="row">
       <div className="col presta">
+        
         <h3>Notre derniére prestation</h3>
+
+        {last && last.cover && last.title ? (
         <EventCard
-          imageSrc={last && last.cover ? last.cover : "defaultImageSrc"}
-          title={last && last.title ? last.title : "Default Title"}
+          imageSrc={last?.cover}
+          title={last?.title}
           date={new Date(last?.date)}
           small
-          label="boom"
+          label={last?.type}
         />
+        ) : (
+          null
+        )}
+
       </div>
+
       <div className="col contact">
         <h3>Contactez-nous</h3>
         <address>45 avenue de la République, 75000 Paris</address>

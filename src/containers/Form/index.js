@@ -4,11 +4,10 @@ import Field, { FIELD_TYPES } from "../../components/Field";
 import Select from "../../components/Select";
 import Button, { BUTTON_TYPES } from "../../components/Button";
 
-const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 1000); })
+const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 500); })
 
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
-  const [confirmation, setConfirmation] = useState(false);
 
   const sendContact = useCallback(
     async (evt) => {
@@ -17,9 +16,8 @@ const Form = ({ onSuccess, onError }) => {
       // We try to call mockContactApi
       try {
         await mockContactApi();
+        onSuccess()
         setSending(false);
-        setConfirmation(true);
-        setTimeout(() => setConfirmation(false), 5000);
       } catch (err) {
         setSending(false);
         onError(err);
@@ -44,7 +42,6 @@ const Form = ({ onSuccess, onError }) => {
           <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
             {sending ? "En cours" : "Envoyer"}
           </Button>
-          {confirmation && <p>Votre message a été envoyé avec succès !</p>}
         </div>
         <div className="col">
           <Field
